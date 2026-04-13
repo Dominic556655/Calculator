@@ -1,0 +1,335 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <title>VAT Calculator</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'img/All-in-one VAT, mortgage, FBA calculator logo.png' %}"
+      type="image/x-icon"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  </head>
+  <body>
+    <div class="container1">
+      <h1>Calculator App</h1>
+      <br />
+      <ul class="index-ul">
+        <a href="{% url 'vat-page' %}">VAT Calculator</a
+        ><br />
+        <!-- <a href="{% url 'mortgage-page' %}">Mortgage Calculator</a
+        ><br /> -->
+        <a href="{% url 'fba-page' %}">Amazon FBA Calculator</a
+        ><br />
+        <a href="{% url 'history-page' %}">View History</a>
+      </ul>
+    </div>
+    <hr />
+    <div class="General-container">
+      <!-- <h5 class="free-page">‼️Free Online Calculators</h5> -->
+      <h1 class="h1 title">
+        All-in-One Smart Calculator Platform. <br />
+        VAT & Amazon FBA
+      </h1>
+      <!-- <p>Perform financial, investment, and daily calculations instantly.</p> -->
+      <div class="container hidden">
+        <h1>VAT Calculator</h1>
+        <p>Calculate VAT with custom rate and Multiple Currencies</p>
+        <br />
+        <input
+          id="amount"
+          type="text"
+          placeholder="Amount"
+          oninput="formatInputWithCommas(this)"
+        />
+
+        <select class="currency" id="currency">
+          <!-- Major Global -->
+          <option value="£">GBP - British Pound (£)</option>
+          <option value="€">EUR - Euro (€)</option>
+          <option value="$">USD - US Dollar ($)</option>
+          <option value="¥">JPY - Japanese Yen (¥)</option>
+          <option value="¥">CNY - Chinese Yuan (¥)</option>
+          <!-- Africa -->
+          <option value="₦">NGN - Nigerian Naira (₦)</option>
+          <option value="R">ZAR - South African Rand (R)</option>
+          <option value="KSh">KES - Kenyan Shilling (KSh)</option>
+          <option value="GH₵">GHS - Ghana Cedi (GH₵)</option>
+          <option value="E£">EGP - Egyptian Pound (E£)</option>
+
+          <!-- Middle East -->
+          <option value="﷼">SAR - Saudi Riyal (﷼)</option>
+          <option value="AED">AED - UAE Dirham (AED)</option>
+          <option value="₺">TRY - Turkish Lira (₺)</option>
+
+          <!-- Asia -->
+          <option value="₹">INR - Indian Rupee (₹)</option>
+          <option value="₩">KRW - South Korean Won (₩)</option>
+          <option value="₱">PHP - Philippine Peso (₱)</option>
+          <option value="฿">THB - Thai Baht (฿)</option>
+
+          <!-- Americas -->
+          <option value="C$">CAD - Canadian Dollar (C$)</option>
+          <option value="A$">AUD - Australian Dollar (A$)</option>
+          <option value="NZ$">NZD - New Zealand Dollar (NZ$)</option>
+          <option value="R$">BRL - Brazilian Real (R$)</option>
+          <option value="$">MXN - Mexican Peso ($)</option>
+
+          <!-- Europe (extra) -->
+          <option value="CHF">CHF - Swiss Franc (CHF)</option>
+          <option value="kr">SEK - Swedish Krona (kr)</option>
+          <option value="kr">NOK - Norwegian Krone (kr)</option>
+          <option value="kr">DKK - Danish Krone (kr)</option>
+          <option value="zł">PLN - Polish Zloty (zł)</option>
+        </select>
+        <input id="vat" placeholder="VAT %" />
+        <div class="calculator-keys">
+          <button type="button" onclick="appendNumber('7')">7</button>
+          <button type="button" onclick="appendNumber('8')">8</button>
+          <button type="button" onclick="appendNumber('9')">9</button>
+
+          <button type="button" onclick="appendNumber('4')">4</button>
+          <button type="button" onclick="appendNumber('5')">5</button>
+          <button type="button" onclick="appendNumber('6')">6</button>
+
+          <button type="button" onclick="appendNumber('1')">1</button>
+          <button type="button" onclick="appendNumber('2')">2</button>
+          <button type="button" onclick="appendNumber('3')">3</button>
+
+          <button type="button" onclick="appendNumber('0')">0</button>
+          <button type="button" onclick="appendNumber('.')">.</button>
+          <button type="button" onclick="clearInput()">C</button>
+        </div>
+
+        <button onclick="calculateVAT()">Calculate</button>
+
+        <p id="result" class="result"></p>
+      </div>
+
+      <h1 class="hidden">What is VAT Calculator?</h1>
+
+      <p class="indent page hidden">
+        Value Added Tax (VAT) is a consumption tax applied to the sale of goods
+        and services in many countries. Businesses collect VAT from customers on
+        behalf of the relevant tax authorities. The amount payable is typically
+        calculated as the difference between the VAT charged on sales and the
+        VAT paid on business-related purchases.
+      </p>
+
+      <p class="indent page hidden">
+        Goods and services can either be subject to VAT or exempt from it,
+        depending on the rules in each region. Common VAT-exempt categories
+        include rent, education, healthcare, postal services, financial
+        services, insurance, and gambling.
+      </p>
+
+      <p class="indent page hidden">
+        Voluntary registration can be useful because it allows a business to
+        reclaim tax paid on purchases and may make the business appear more
+        established. However, registration—whether mandatory or voluntary—also
+        comes with responsibilities, such as charging tax on sales and
+        submitting regular tax returns.
+      </p>
+
+      <p class="indent page hidden">
+        VAT is charged on goods at different levels. The current standard rate
+        of 20% applies to most items.
+      </p>
+      <img
+        src="/static/img/illustration-3.svg"
+        alt=""
+        class="hero-img indent"
+      />
+
+      <p class="indent page hidden">
+        A Reduced Rate of 5% applies to many items including mobility aids for
+        the elderly, smoking cessation products (nicotine patches and gum),
+        electricity and gas for domestic and residential use, children's car
+        seats, booster seats and booster cushions and many more.
+      </p>
+
+      <p class="indent page hidden">
+        Finally, there is a Zero Rate on many items, including but not limited
+        to - Cycle helmets (CE marked), Protective boots and helmets for
+        industrial use, children's clothes and footwear, baby wear, printing of
+        brochures, leaflets and pamphlets, aircraft repair and maintenance,
+        building services for disabled people.
+      </p>
+
+      <h1>Simplified VAT Scheme for Small Businesses</h1>
+      <p class="indent page hidden">
+        The Simplified Rate VAT Scheme is intended for small businesses with
+        annual taxable sales below a certain limit (for example, £150,000). It
+        simplifies VAT reporting and reduces the time spent on accounting.
+      </p>
+      <p class="indent page hidden">
+        Under standard VAT accounting, a business calculates VAT by subtracting
+        the VAT it pays on purchases from the VAT it charges customers. With the
+        Flat Rate Scheme, a business pays VAT as a fixed percentage of its total
+        sales instead. The percentage depends on the type of business, and you
+        still show VAT on invoices like normal.
+      </p>
+
+      <strong class="indent page hidden">Advantages:</strong>
+      <ul class="indent page hidden">
+        <li>
+          Easier bookkeeping – no need to track VAT on every sale and purchase.
+        </li>
+        <li>
+          Saves time – allows business owners to focus more on running their
+          business.
+        </li>
+        <li>
+          Predictable payments – you know in advance what portion of revenue
+          goes to the tax authorities.
+        </li>
+        <li>
+          Some systems give a first-year discount on the flat rate for new
+          VAT-registered businesses.
+        </li>
+        <li>
+          Lower risk of mistakes – fewer calculations mean less chance of
+          errors.
+        </li>
+      </ul>
+
+      <strong class="indent page hidden">Potential Drawbacks:</strong>
+      <ul class="indent page hidden">
+        <li>
+          The flat rate percentage already assumes allowances for zero-rated and
+          exempt sales, as well as VAT paid on purchases.
+        </li>
+        <li>
+          It may not suit businesses that have high VAT costs on purchases or
+          whose sales patterns differ significantly from the assumptions behind
+          the flat rate.
+        </li>
+      </ul>
+
+      <div class="division1">
+        <div class="division2">
+          <h1>Using The VAT Calculator</h1>
+
+          <p class="indent justify">
+            This online Vat Calculator gives you instant, accurate results in
+            one step. <strong>"Enter any amount,"</strong>
+            <strong>"Choose your currency"</strong> and
+            <strong>"Enter your Vat"</strong> and press
+            <strong>"Calculate"</strong>
+          </p>
+          <ul class="indent">
+            <li>VAT Amount = Price × (VAT Rate / 100)</li>
+            <li>Price including VAT = Price + VAT</li>
+          </ul>
+        </div>
+
+        <div class="division3">
+          <h1>Common VAT rate</h1>
+          <strong class="justify">Note: </strong><br />
+          <p class="indent justify">
+            This calculator provides estimates based on the VAT rate you enter.
+            Actual VAT charges may differ depending on local regulations,
+            exemptions, or special reduced rates for certain goods and services.
+            Always confirm the correct VAT rate in your country or region before
+            finalizing any pricing or financial calculations. Remember, some
+            items may be VAT-exempt, and businesses may be able to reclaim input
+            VAT. Use this tool as a guide to help you quickly understand the VAT
+            component of prices.
+          </p>
+        </div>
+
+        <div class="division4">
+          <h1>About VAT Calculator</h1>
+          <p class="indent justify">
+            Value Added Tax (VAT) is a consumption tax applied to goods and
+            services at each stage of production and distribution, where every
+            business in the supply chain charges VAT on its sales (output VAT)
+            and is allowed to deduct the VAT it paid on its purchases (input
+            VAT), so that only the value it adds is taxed, and although
+            businesses handle the collection and remittance to the government,
+            the actual burden of the tax is passed on to the final consumer
+            through higher prices, making VAT an efficient and widely used
+            system because it spreads tax collection across multiple points and
+            reduces the chances of tax evasion compared to a single-stage sales
+            tax.
+          </p>
+        </div>
+        <div class="division5">
+          <h1>History of VAT</h1>
+          <p class="indent justify">
+            Value Added Tax (VAT) was first proposed in 1918 by German
+            industrialist Wilhelm von Siemens, then later implemented in 1954 in
+            France by Maurice Lauré, after which it gradually spread across
+            Europe in the 1960s and 1970s, became a standard system within the
+            European Economic Community in 1973, and was eventually adopted
+            worldwide, including in Nigeria where it was introduced in 1993 and
+            came into effect in 1994 as a replacement for the previous sales tax
+            system.
+          </p>
+        </div>
+      </div>
+      <script src="{% static 'script.js' %}" defer></script>
+    </div>
+
+    <script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          }
+        });
+      });
+
+      document.querySelectorAll(".hidden").forEach((el) => {
+        observer.observe(el);
+
+        // Define functions on window so active Input can find them
+
+        let activeInput = null;
+
+        // track focused input
+        document.querySelectorAll("input").forEach((input) => {
+          input.addEventListener("focus", () => {
+            activeInput = input;
+
+            // window.appendNumber = function (num) {
+            //   if (!activeInput) return;
+
+            //   activeInput.value += num;
+            // };
+            window.appendNumber = function (num) {
+              if (!activeInput) return;
+
+              // Remove commas
+              let rawValue = activeInput.value.replace(/,/g, "");
+
+              // Add new digit
+              rawValue += num;
+
+              // Format with commas
+              activeInput.value = Number(rawValue).toLocaleString("en-US");
+            };
+
+            window.clearInput = function () {
+              if (!activeInput) return;
+
+              activeInput.value = "";
+            };
+          });
+        });
+      });
+    </script>
+    <!-- FOOTER -->
+    <footer>
+      <p class="kick">
+        &copy; <time id="year"></time> Currency-calculator. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>

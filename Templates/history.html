@@ -1,0 +1,56 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <title>History</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'img/All-in-one VAT, mortgage, FBA calculator logo.png' %}"
+      type="image/x-icon"
+    />
+  </head>
+  <body onload="loadHistory()">
+    <div class="container1">
+      <h1>Calculator App</h1>
+      <br />
+      <ul class="index-ul">
+        <a href="{% url 'vat-page' %}">VAT Calculator</a
+        ><br />
+        <!-- <a href="{% url 'mortgage-page' %}">Mortgage Calculator</a
+        ><br /> -->
+        <a href="{% url 'fba-page' %}">Amazon FBA Calculator</a
+        ><br />
+        <a href="{% url 'history-page' %}">View History</a>
+      </ul>
+    </div>
+    <div class="container_History hidden">
+      <h1>History</h1>
+
+      <button
+        type="button"
+        style="background: red; color: white"
+        onclick="clearHistory()"
+      >
+        Clear History
+      </button>
+      <ul id="history" style="font-size: 1.3rem"></ul>
+    </div>
+
+    <script src="{% static 'script.js' %}"></script>
+
+    <script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          }
+        });
+      });
+
+      document.querySelectorAll(".hidden").forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,332 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <title>FBA Calculator</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'img/All-in-one VAT, mortgage, FBA calculator logo.png' %}"
+      type="image/x-icon"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  </head>
+  <body>
+    <div class="container1">
+      <h1>Calculator App</h1>
+      <br />
+      <ul class="index-ul">
+        <a href="{% url 'vat-page' %}">VAT Calculator</a
+        ><br />
+        <!-- <a href="{% url 'mortgage-page' %}">Mortgage Calculator</a
+        ><br /> -->
+        <a href="{% url 'fba-page' %}">Amazon FBA Calculator</a
+        ><br />
+        <a href="{% url 'history-page' %}">View History</a>
+      </ul>
+    </div>
+    <hr />
+    <div class="General-container hidden">
+      <div class="container hidden">
+        <h1>FBA Calculator</h1>
+
+        <input
+          id="cost"
+          placeholder="Product Cost"
+          oninput="formatInputWithCommas(this)"
+        />
+        <select class="currency" id="currency">
+          <!-- Major Global -->
+          <option value="£">GBP - British Pound (£)</option>
+          <option value="€">EUR - Euro (€)</option>
+          <option value="$">USD - US Dollar ($)</option>
+          <option value="¥">JPY - Japanese Yen (¥)</option>
+          <option value="¥">CNY - Chinese Yuan (¥)</option>
+          <!-- Africa -->
+          <option value="₦">NGN - Nigerian Naira (₦)</option>
+          <option value="R">ZAR - South African Rand (R)</option>
+          <option value="KSh">KES - Kenyan Shilling (KSh)</option>
+          <option value="GH₵">GHS - Ghana Cedi (GH₵)</option>
+          <option value="E£">EGP - Egyptian Pound (E£)</option>
+
+          <!-- Americas -->
+          <option value="C$">CAD - Canadian Dollar (C$)</option>
+          <option value="A$">AUD - Australian Dollar (A$)</option>
+          <option value="NZ$">NZD - New Zealand Dollar (NZ$)</option>
+          <option value="R$">BRL - Brazilian Real (R$)</option>
+          <option value="$">MXN - Mexican Peso ($)</option>
+
+          <!-- Middle East -->
+          <option value="﷼">SAR - Saudi Riyal (﷼)</option>
+          <option value="AED">AED - UAE Dirham (AED)</option>
+          <option value="₺">TRY - Turkish Lira (₺)</option>
+
+          <!-- Asia -->
+          <option value="₹">INR - Indian Rupee (₹)</option>
+          <option value="₩">KRW - South Korean Won (₩)</option>
+          <option value="₱">PHP - Philippine Peso (₱)</option>
+          <option value="฿">THB - Thai Baht (฿)</option>
+
+          <!-- Europe (extra) -->
+          <option value="CHF">CHF - Swiss Franc (CHF)</option>
+          <option value="kr">SEK - Swedish Krona (kr)</option>
+          <option value="kr">NOK - Norwegian Krone (kr)</option>
+          <option value="kr">DKK - Danish Krone (kr)</option>
+          <option value="zł">PLN - Polish Zloty (zł)</option>
+        </select>
+        <input
+          id="price"
+          placeholder="Selling Price"
+          oninput="formatInputWithCommas(this)"
+        />
+        <input id="fee" placeholder="Amazon Fee (%)" />
+        <input
+          id="shipping"
+          placeholder="Shipping Cost"
+          oninput="formatInputWithCommas(this)"
+        />
+        <div class="calculator-keys">
+          <button type="button" onclick="appendNumber('7')">7</button>
+          <button type="button" onclick="appendNumber('8')">8</button>
+          <button type="button" onclick="appendNumber('9')">9</button>
+
+          <button type="button" onclick="appendNumber('4')">4</button>
+          <button type="button" onclick="appendNumber('5')">5</button>
+          <button type="button" onclick="appendNumber('6')">6</button>
+
+          <button type="button" onclick="appendNumber('1')">1</button>
+          <button type="button" onclick="appendNumber('2')">2</button>
+          <button type="button" onclick="appendNumber('3')">3</button>
+
+          <button type="button" onclick="appendNumber('0')">0</button>
+          <button type="button" onclick="appendNumber('.')">.</button>
+          <button type="button" onclick="clearInput()">C</button>
+        </div>
+        <button onclick="calculateFBA()">Calculate</button>
+
+        <p id="result" class="result hidden"></p>
+        <p>
+          <strong>Note:</strong> Results are calculated over the total costs
+          (product, shipping, and fees)! not the product cost alone
+        </p>
+      </div>
+      <h1 class="hidden">Amazon FBA/ Business</h1>
+      <p class="indent page hidden">
+        This calculator helps you estimate your monthly business payments or
+        investment returns when using financing or credit for your FBA business.
+        It’s designed to give an overview of how much you pay or earn each
+        month, based on your upfront investment, operating costs, and growth
+        rates.
+      </p>
+      <img
+        src="/static/img/illustration-1.svg"
+        alt="future"
+        class="hero-img hidden"
+      />
+
+      <h1 class="hidden">Amazon FBA Business Components</h1>
+      <p class="indent page hidden">
+        Amazon FBA (Fulfillment by Amazon) is a business model where you sell
+        products, and Amazon handles storage, packing, shipping, and customer
+        service. Sellers send inventory to Amazon warehouses, allowing for
+        faster shipping (Prime) and easier scaling. It is used for private
+        label, wholesale, and arbitrage, but requires management of inventory
+        fees, which increase for long-term storage.
+      </p>
+      <ul class="page hidden">
+        <li>
+          <strong>How It Works:</strong>You list products on Amazon, ship
+          inventory to Amazon fulfillment centers, and they handle logistics,
+          customer service, and returns.
+        </li>
+        <br />
+        <li>
+          <strong>Benefits: </strong>Access to Amazon Prime customers, expert
+          logistics, and automated customer service.
+        </li>
+        <br />
+        <li>
+          <strong>Loan term</strong>—the amount of time over which the loan must
+          be repaid in full. Most fixed-rate mortgages are for 15, 20, or
+          30-year terms. A shorter period, such as 15 or 20 years, typically
+          includes a lower interest rate.
+        </li>
+        <br />
+        <li>
+          <strong>Costs & Fees:</strong>FBA fees include storage, fulfillment,
+          and potentially high fees for products stored longer than 181 days.
+        </li>
+        <br />
+        <li>
+          <strong>Strategies: </strong>Many sellers focus on private labeling
+          (creating a brand), wholesale, or retail/online arbitrage to source
+          products.
+        </li>
+        <br />
+        <li><strong>Challenges:</strong></li>
+        Managing inventory levels to avoid high storage fees, competitive
+        marketplace, and capital constraints.
+      </ul>
+      <div class="division1">
+        <img src="/static/img/about-us 1.svg" alt="" />
+
+        <div class="division">
+          <h1>About Us</h1>
+          <p class="indent">
+            Fulfillment by Amazon (FBA) is the easiest way for sellers to grow
+            their online business. With FBA, you store your products in Amazon’s
+            fulfillment centers, and Amazon takes care of the rest—packing,
+            shipping, and even customer service. This means you can reach
+            millions of customers, offer fast delivery through Amazon Prime, and
+            focus on what matters most: growing your brand and expanding your
+            product line. FBA gives sellers the freedom to scale their business
+            without worrying about logistics, storage, or order management.
+            Whether you’re just starting out or running a thriving online store,
+            FBA empowers you to sell smarter, reach further, and provide a
+            seamless shopping experience for your customers.
+          </p>
+          <p></p>
+        </div>
+      </div>
+      <h1 class="hidden">Costs Associated with Running an FBA Business</h1>
+      <p class="indent page hidden">
+        Monthly operating expenses usually make up the bulk of the costs
+        involved in running an FBA business, but there are other important costs
+        to consider. These costs can be separated into recurring and
+        non-recurring categories.
+      </p>
+      <h1 class="hidden">Recurring Costs</h1>
+      <p class="page indent">
+        This include ongoing expenses that occur regularly, such as storage
+        fees, shipping and fulfillment, platform fees, and subscription
+        services. These are essential for day-to-day operations and can affect
+        your monthly cash flow. <br />
+
+        Most recurring costs continue throughout the life of an FBA business and
+        play a major role in overall profitability. These expenses are ongoing
+        and can increase over time due to factors like business growth, storage
+        duration, or changes in service rates. In the calculator, recurring
+        costs can be included under optional settings, allowing for more
+        accurate projections of monthly performance.
+      </p>
+      <ul class="page">
+        <li>
+          <strong>Fulfillment and shipping fees</strong>—these are the costs
+          associated with picking, packing, and delivering products to
+          customers. They vary depending on product size, weight, and
+          destination. Faster delivery options or international shipping may
+          increase these costs.
+        </li>
+
+        <li>
+          <strong>Storage fees</strong>—charges for keeping inventory in
+          fulfillment centers. These fees are typically calculated based on the
+          amount of space your products occupy and may increase during peak
+          seasons or for long-term storage.
+        </li>
+        <li>
+          <strong>Platform fees</strong>—these are charges associated with
+          selling on a marketplace, often calculated as a percentage of each
+          sale. They can vary depending on product category and selling plan.
+        </li>
+
+        <li>
+          <strong>Returns and customer service handling</strong>—costs related
+          to processing returned items and managing customer inquiries. These
+          can fluctuate depending on product type and return rates. Advertising
+        </li>
+      </ul>
+
+      <h1 class="hidden">Non-Recurring Costs</h1>
+      <p class="page indent hidden">
+        <strong>Non-Recurring Costs</strong> are one-time or occasional
+        expenses, such as initial inventory purchases, equipment, software
+        setup, or marketing campaigns. While these costs don’t happen every
+        month, they can have a significant impact on your overall investment.
+      </p>
+
+      <ul class="page hidden">
+        <li>
+          <strong>Initial inventory purchase</strong>—the cost of acquiring
+          products to sell. Depending on your business strategy, this may
+          include sourcing from suppliers, importing, or manufacturing. Large
+          orders can require substantial upfront investment but are necessary to
+          start selling.
+        </li>
+        <li>
+          <strong>Setup and equipment costs</strong>—expenses for setting up
+          your FBA business, including packaging materials, labeling equipment,
+          scanners, shelving, or other tools required for handling inventory.
+          These are usually paid once but are critical for smooth operations.
+        </li>
+        <li>
+          <strong>Software and subscriptions</strong>—one-time purchases or
+          annual fees for tools that help manage inventory, track sales, or
+          optimize listings. While not monthly, these costs are often required
+          when starting or scaling the business.
+        </li>
+        <li>
+          <strong>Marketing campaigns</strong>—initial promotional efforts to
+          launch a product, attract customers, or generate brand awareness. This
+          could include paid ads, influencer partnerships, or product giveaways.
+        </li>
+      </ul>
+
+      <script src="{% static 'script.js' %}" defer></script>
+    </div>
+
+    <script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          }
+        });
+      });
+
+      document.querySelectorAll(".hidden").forEach((el) => {
+        observer.observe(el);
+        // Define functions on window so active Input can find them
+
+        let activeInput = null;
+
+        // track focused input
+        document.querySelectorAll("input").forEach((input) => {
+          input.addEventListener("focus", () => {
+            activeInput = input;
+
+            window.appendNumber = function (num) {
+              if (!activeInput) return;
+
+              // Remove commas
+              let rawValue = activeInput.value.replace(/,/g, "");
+
+              // Add new digit
+              rawValue += num;
+
+              // Format with commas
+              activeInput.value = Number(rawValue).toLocaleString("en-US");
+            };
+
+            window.clearInput = function () {
+              if (!activeInput) return;
+
+              activeInput.value = "";
+            };
+          });
+        });
+      });
+    </script>
+    <!-- FOOTER -->
+    <footer>
+      <p class="kick">
+        &copy; <time id="year"></time> Currency-calculator. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>

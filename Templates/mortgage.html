@@ -1,0 +1,332 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <title>Mortgage Calculator</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'img/All-in-one VAT, mortgage, FBA calculator logo.png' %}"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <div class="container1">
+      <ul class="index-ul">
+        <a href="{% url 'vat-page' %}">VAT Calculator</a
+        ><br />
+        <a href="{% url 'fba-page' %}">FBA Calculator</a
+        ><br />
+        <a href="{% url 'history-page' %}">View History</a>
+      </ul>
+    </div>
+    <hr />
+    <div class="General-container">
+      <div class="container hidden">
+        <h1>Mortgage Calculator</h1>
+
+        <input
+          id="principal"
+          placeholder="Loan Amount"
+          oninput="formatInputWithCommas(this)"
+        />
+        <select class="currency" id="currency">
+          <!-- Major Global -->
+          <option value="$">USD - US Dollar ($)</option>
+          <option value="€">EUR - Euro (€)</option>
+          <option value="£">GBP - British Pound (£)</option>
+          <option value="¥">JPY - Japanese Yen (¥)</option>
+          <option value="¥">CNY - Chinese Yuan (¥)</option>
+
+          <!-- Africa -->
+          <option value="₦">NGN - Nigerian Naira (₦)</option>
+          <option value="R">ZAR - South African Rand (R)</option>
+          <option value="KSh">KES - Kenyan Shilling (KSh)</option>
+          <option value="GH₵">GHS - Ghana Cedi (GH₵)</option>
+          <option value="E£">EGP - Egyptian Pound (E£)</option>
+
+          <!-- Middle East -->
+          <option value="﷼">SAR - Saudi Riyal (﷼)</option>
+          <option value="AED">AED - UAE Dirham (AED)</option>
+          <option value="₺">TRY - Turkish Lira (₺)</option>
+
+          <!-- Asia -->
+          <option value="₹">INR - Indian Rupee (₹)</option>
+          <option value="₩">KRW - South Korean Won (₩)</option>
+          <option value="₱">PHP - Philippine Peso (₱)</option>
+          <option value="฿">THB - Thai Baht (฿)</option>
+
+          <!-- Americas -->
+          <option value="C$">CAD - Canadian Dollar (C$)</option>
+          <option value="A$">AUD - Australian Dollar (A$)</option>
+          <option value="NZ$">NZD - New Zealand Dollar (NZ$)</option>
+          <option value="R$">BRL - Brazilian Real (R$)</option>
+          <option value="$">MXN - Mexican Peso ($)</option>
+
+          <!-- Europe (extra) -->
+          <option value="CHF">CHF - Swiss Franc (CHF)</option>
+          <option value="kr">SEK - Swedish Krona (kr)</option>
+          <option value="kr">NOK - Norwegian Krone (kr)</option>
+          <option value="kr">DKK - Danish Krone (kr)</option>
+          <option value="zł">PLN - Polish Zloty (zł)</option>
+        </select>
+        <input id="rate" placeholder="Annual Rate (%)" />
+        <input id="years" placeholder="Years" />
+
+        <button onclick="calculateMortgage()">Calculate</button>
+
+        <p id="result" class="result hidden"></p>
+        <p>
+          <strong>Note:</strong> Calculations assume a fixed interest rate with
+          monthly compounding over the selected loan term. Actual payments may
+          vary.
+        </p>
+      </div>
+      <h1 class="hidden">Mortgages</h1>
+      <p class="indent page hidden">
+        A mortgage is a loan secured by property, usually real estate property.
+        Lenders define it as the money borrowed to pay for real estate. In
+        essence, the lender helps the buyer pay the seller of a house, and the
+        buyer agrees to repay the money borrowed over a period of time, usually
+        15 or 30 years in the U.S. Each month, a payment is made from buyer to
+        lender. A portion of the monthly payment is called the principal, which
+        is the original amount borrowed. The other portion is the interest,
+        which is the cost paid to the lender for using the money. There may be
+        an escrow account involved to cover the cost of property taxes and
+        insurance. The buyer cannot be considered the full owner of the
+        mortgaged property until the last monthly payment is made. In the U.S.,
+        the most common mortgage loan is the conventional 30-year fixed-interest
+        loan, which represents 70% to 90% of all mortgages. Mortgages are how
+        most people are able to own homes in the U.S.
+      </p>
+      <img
+        src="/static/img/finance calculator 2.svg"
+        alt="future"
+        class="hero-img hidden"
+      />
+
+      <h1 class="hidden">Mortgage Calculator Components</h1>
+      <p class="indent page hidden">
+        A mortgage usually includes the following key components. These are also
+        the basic components of a mortgage calculator.
+      </p>
+      <ul class="page hidden">
+        <li>
+          <strong>Loan amount</strong>—the amount borrowed from a lender or
+          bank. In a mortgage, this amounts to the purchase price minus any down
+          payment. The maximum loan amount one can borrow normally correlates
+          with household income or affordability.
+        </li>
+        <br />
+        <li>
+          <strong>Down payment</strong>—the upfront payment of the purchase,
+          usually a percentage of the total price. This is the portion of the
+          purchase price covered by the borrower. Typically, mortgage lenders
+          want the borrower to put 20% or more as a down payment. In some cases,
+          borrowers may put down as low as 3%. If the borrowers make a down
+          payment of less than 20%, they will be required to pay private
+          mortgage insurance (PMI). Borrowers need to hold this insurance until
+          the loan's remaining principal dropped below 80% of the home's
+          original purchase price. A general rule-of-thumb is that the higher
+          the down payment, the more favorable the interest rate and the more
+          likely the loan will be approved.
+        </li>
+        <br />
+        <li>
+          <strong>Loan term</strong>—the amount of time over which the loan must
+          be repaid in full. Most fixed-rate mortgages are for 15, 20, or
+          30-year terms. A shorter period, such as 15 or 20 years, typically
+          includes a lower interest rate.
+        </li>
+        <br />
+        <li>
+          <strong>Interest rate</strong>—the percentage of the loan charged as a
+          cost of borrowing. Mortgages can charge either fixed-rate mortgages
+          (FRM) or adjustable-rate mortgages (ARM). As the name implies,
+          interest rates remain the same for the term of the FRM loan. The
+          calculator above calculates fixed rates only. For ARMs, interest rates
+          are generally fixed for a period of time, after which they will be
+          periodically adjusted based on market indices. ARMs transfer part of
+          the risk to borrowers. Therefore, the initial interest rates are
+          normally 0.5% to 2% lower than FRM with the same loan term. Mortgage
+          interest rates are normally expressed in Annual Percentage Rate (APR),
+          sometimes called nominal APR or effective APR. It is the interest rate
+          expressed as a periodic rate multiplied by the number of compounding
+          periods in a year. For example, if a mortgage rate is 6% APR, it means
+          the borrower will have to pay 6% divided by twelve, which comes out to
+          0.5% in interest every month.
+        </li>
+      </ul>
+      <h1 class="hidden">Costs Associated with Home Ownership and Mortgages</h1>
+      <p class="indent page hidden">
+        Monthly mortgage payments usually comprise the bulk of the financial
+        costs associated with owning a house, but there are other substantial
+        costs to keep in mind. These costs are separated into two categories,
+        recurring and non-recurring.
+      </p>
+
+      <h1 class="hidden">Recurring Costs</h1>
+      <p class="indent page hidden">
+        Most recurring costs persist throughout and beyond the life of a
+        mortgage. They are a significant financial factor. Property taxes, home
+        insurance, HOA fees, and other costs increase with time as a byproduct
+        of inflation. In the calculator, the recurring costs are under the
+        "Include Options Below" checkbox. There are also optional inputs within
+        the calculator for annual percentage increases under "More Options."
+        Using these can result in more accurate calculations.
+      </p>
+      <img
+        src="/static/img/Recurring costs in FBA infographic.png"
+        alt=""
+        class="hero-img indent"
+      />
+      <ul class="page hidden">
+        <li>
+          <strong>Property taxes</strong>—a tax that property owners pay to
+          governing authorities. In the U.S., property tax is usually managed by
+          municipal or county governments. All 50 states impose taxes on
+          property at the local level. The annual real estate tax in the U.S.
+          varies by location; on average, Americans pay about 1.1% of their
+          property's value as property tax each year.
+        </li>
+        <li>
+          <strong>Home insurance</strong>—an insurance policy that protects the
+          owner from accidents that may happen to their real estate properties.
+          Home insurance can also contain personal liability coverage, which
+          protects against lawsuits involving injuries that occur on and off the
+          property. The cost of home insurance varies according to factors such
+          as location, condition of the property, and the coverage amount.
+        </li>
+        <li>
+          <strong>Private mortgage insurance (PMI)</strong>—protects the
+          mortgage lender if the borrower is unable to repay the loan. In the
+          U.S. specifically, if the down payment is less than 20% of the
+          property's value, the lender will normally require the borrower to
+          purchase PMI until the loan-to-value ratio (LTV) reaches 80% or 78%.
+          PMI price varies according to factors such as down payment, size of
+          the loan, and credit of the borrower. The annual cost typically ranges
+          from 0.3% to 1.9% of the loan amount.
+        </li>
+        <li>
+          <strong>HOA fee</strong>—a fee imposed on the property owner by a
+          homeowner's association (HOA), which is an organization that maintains
+          and improves the property and environment of the neighborhoods within
+          its purview. Condominiums, townhomes, and some single-family homes
+          commonly require the payment of HOA fees. Annual HOA fees usually
+          amount to less than one percent of the property value.
+        </li>
+        <li>
+          <strong>Other costs</strong>—includes utilities, home maintenance
+          costs, and anything pertaining to the general upkeep of the property.
+          It is common to spend 1% or more of the property value on annual
+          maintenance alone.
+        </li>
+      </ul>
+
+      <h1 class="hidden">Non-Recurring Costs</h1>
+      <p class="indent page hidden">
+        These costs aren't addressed by the calculator, but they are still
+        important to keep in mind.
+      </p>
+      <img
+        src="/static/img/Non-recurring budget breakdown infographic.png"
+        alt=""
+        class="hero-img indent"
+      />
+      <ul class="page hidden">
+        <li>
+          <strong>Closing costs</strong>—the fees paid at the closing of a real
+          estate transaction. These are not recurring fees, but they can be
+          expensive. In the U.S., the closing cost on a mortgage can include an
+          attorney fee, the title service cost, recording fee, survey fee,
+          property transfer tax, brokerage commission, mortgage application fee,
+          points, appraisal fee, inspection fee, home warranty, pre-paid home
+          insurance, pro-rata property taxes, pro-rata homeowner association
+          dues, pro-rata interest, and more. These costs typically fall on the
+          buyer, but it is possible to negotiate a "credit" with the seller or
+          the lender. It is not unusual for a buyer to pay about $10,000 in
+          total closing costs on a $400,000 transaction.
+        </li>
+        <li>
+          <strong>Initial renovations</strong>—some buyers choose to renovate
+          before moving in. Examples of renovations include changing the
+          flooring, repainting the walls, updating the kitchen, or even
+          overhauling the entire interior or exterior. While these expenses can
+          add up quickly, renovation costs are optional, and owners may choose
+          not to address renovation issues immediately.
+        </li>
+        <li>
+          <strong>Miscellaneous</strong>—new furniture, new appliances, ande
+          moving costs are typical non-recurring costs of a home purchase. This
+          also includes repair costs.
+        </li>
+      </ul>
+
+      <h1 class="hidden">Early Repayment and Extra Payments</h1>
+      <p class="indent page">
+        In many situations, mortgage borrowers may want to pay off mortgages
+        earlier rather than later, either in whole or in part, for reasons
+        including but not limited to interest savings, wanting to sell their
+        home, or refinancing. Our calculator can factor in monthly, annual, or
+        one-time extra payments. However, borrowers need to understand the
+        advantages and disadvantages of paying ahead on the mortgage.
+      </p>
+      <h1 class="hidden">Early Repayment Strategies</h1>
+      <ol class="page hidden">
+        <li>
+          <strong>Make extra payments</strong>—This is simply an extra payment
+          over and above the monthly payment. On typical long-term mortgage
+          loans, a very big portion of the earlier payments will go towards
+          paying down interest rather than the principal. Any extra payments
+          will decrease the loan balance, thereby decreasing interest and
+          allowing the borrower to pay off the loan earlier in the long run.
+          Some people form the habit of paying extra every month, while others
+          pay extra whenever they can. There are optional inputs in the Mortgage
+          Calculator to include many extra payments, and it can be helpful to
+          compare the results of supplementing mortgages with or without extra
+          payments.
+        </li>
+        <li>
+          <strong>Biweekly payments</strong>—The borrower pays half the monthly
+          payment every two weeks. With 52 weeks in a year, this amounts to 26
+          payments or 13 months of mortgage repayments during the year. This
+          method is mainly for those who receive their paycheck biweekly. It is
+          easier for them to form a habit of taking a portion from each paycheck
+          to make mortgage payments. Displayed in the calculated results are
+          biweekly payments for comparison purposes.
+        </li>
+        <li>
+          <strong>Refinance to a loan with a shorter term</strong>—Refinancing
+          involves taking out a new loan to pay off an old loan. In employing
+          this strategy, borrowers can shorten the term, typically resulting in
+          a lower interest rate. This can speed up the payoff and save on
+          interest. However, this usually imposes a larger monthly payment on
+          the borrower. Also, a borrower will likely need to pay closing costs
+          and fees when they refinance.
+        </li>
+      </ol>
+
+      <script src="{% static 'script.js' %}" defer></script>
+    </div>
+
+    <script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          }
+        });
+      });
+
+      document.querySelectorAll(".hidden").forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+    <!-- FOOTER -->
+    <footer>
+      <p class="kick">
+        &copy; <time id="year"></time> Currency-calculator. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>
