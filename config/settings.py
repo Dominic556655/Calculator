@@ -28,12 +28,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-t@=rfj7!7s95x3vc4a+yi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =True
 
-<<<<<<< HEAD
 ALLOWED_HOSTS = ALLOWED_HOSTS = os.environ.get(
-=======
-ALLOWED_HOSTS = os.environ.get(
 
->>>>>>> 7d53ebe (ensure vat template exists)
     "ALLOWED_HOSTS",
     "127.0.0.1,calculator-0vok.onrender.com"
 ).split(",")
