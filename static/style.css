@@ -5,10 +5,11 @@ body {
   padding: 0;
 }
 
+
 .calculator-keys {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 5px;
   margin-top: 15px;
 }
 .calculator-keys button {
@@ -16,7 +17,7 @@ body {
   font-size: 1.2rem;
   border: none;
   border-radius: 8px;
-  background: #578dcff2;
+  background: #1a96dd;
   cursor: pointer;
   transition: 0.2s;
 }
@@ -27,6 +28,7 @@ body {
 .calculator-keys button:active {
   transform: scale(0.95);
 }
+
 
 .container {
   /* background: rgb(255, 255, 255); */
@@ -145,8 +147,7 @@ button:hover {
   width: 100%;
   border: 1px solid gray;
   margin-top: 20px;
-  font-size: 0.8rem;
-  border-radius: 15px;
+  font-size: 1rem;
 }
 .list{
   margin-left: 6rem;
@@ -183,7 +184,7 @@ button:hover {
 
 @media screen and (min-width: 320px){
   
-.free-page{
+/* .free-page{
   text-align: center;
   justify-self: center;
   font-size: 15px;
@@ -193,14 +194,14 @@ button:hover {
   border: 1px solid rgb(0, 0, 0);
   border-radius: 50px;
   margin-top: 3rem;
-}
+} */
 .container {
   background: rgb(255, 255, 255);
-  width: 300px;
+  width: 60%;
   margin: 50px auto;
   padding: 20px;
   border: 1px solid black;
-  box-shadow: 0 015px;
+  box-shadow: 0 0 15px black;
   border-radius: 10px;
 }
 .container1 {
@@ -275,7 +276,6 @@ button:hover {
   
 }
 
-
 .division1{
   display: grid;
   grid-template-columns: repeat(1, 100%);
@@ -283,12 +283,13 @@ button:hover {
 }
 }
 
+
     /* || MEDIA QUERY */
 
 @media screen and (min-width: 390px){
 
 
-.free-page{
+/* .free-page{
   text-align: center;
   justify-self: center;
   font-size: 15px;
@@ -298,10 +299,10 @@ button:hover {
   border: 1px solid rgb(0, 0, 0);
   border-radius: 50px;
   margin-top: 3rem;
-}
+} */
 .container {
   background: rgb(255, 255, 255);
-  width: 300px;
+  width: 70%;
   margin: 50px auto;
   padding: 20px;
   border: 1px solid black;
@@ -384,7 +385,7 @@ button:hover {
   margin-top: 20px ;
 }
 input{
-  width: 93.5%;
+  width: 94%;
   border: 1px solid gray;
   font-size: 1rem;
   border-radius: 15px;
@@ -398,7 +399,7 @@ input{
   margin-right: 7.5rem;
   text-indent: 40px;
 }
-  .free-page{
+/*   .free-page{
   text-align: center;
   justify-self: center;
   font-size: 15px;
@@ -408,9 +409,9 @@ input{
   border: 1px solid rgb(0, 0, 0);
   border-radius: 50px;
   margin-top: 3rem;
-}
+} */
 .container {
-  background: rgb(255, 255, 255);
+  background: #fff;
   width: 70%;
   margin: 40px auto;
   padding: 20px;
@@ -512,14 +513,23 @@ ul a {
   margin-top: 20px ;
 }
 input{
-  width: 93.5%;
+  width: 95.5%;
   border: 1px solid gray;
-  font-size: 1rem;
+  font-size: 1.3rem;
   border-radius: 15px;
 }
 
- 
-  
+.page{
+  font-size: 2rem;
+}
+p{
+  text-align: center;
+  font-size: 20px;
+}
+h1 {
+  font-size: 2.5rem;
+}
+
 .hero-img{
   width: 80%;
   height: auto;
@@ -529,15 +539,15 @@ input{
 .index-ul{
   display:flex;
   float: left;
-  gap: 10px;
+  gap: 2px;
   margin-left: 0.4rem;
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   white-space: nowrap;
 }
 .container {
-  background: rgb(255, 255, 255);
-  width: 400px;
+  background: #fff;
+  width: 60%;
   margin: 50px auto;
   padding: 20px;
   border: 1px solid black;
@@ -613,8 +623,8 @@ input{
   white-space: nowrap;
 }
 .container {
-  background: rgb(255, 255, 255);
-  width: 400px;
+  background: rgb(244, 240, 6);
+  width: 60%;
   margin: 50px auto;
   padding: 20px;
   border: 1px solid black;
@@ -689,12 +699,30 @@ ul a {
 /* || XL */ 
 @media screen and (min-width: 1200px){
  
- 
+ .index-ul{
+  display:flex;
+  float: left;
+  gap: 1px;
+  margin-left: 5rem;
+  text-decoration: none;
+  font-size: 1.5rem;
+  white-space: nowrap;
+}
+
   .hero-img{
   width: 80%;
   height: auto;
   margin-left: 7.5rem;
   
+}
+h1{
+  font-size:2rem ;
+}
+p{
+  font-size: 25px ;
+}
+.page{
+  font-size: 1.3rem;
 }
 input, button {
   width: 90% auto;
@@ -702,6 +730,7 @@ input, button {
 }
 input{
   width: 93.5%;
+  font-size: 1.5rem;
   border-radius: 15px;
 }
 button {
@@ -709,23 +738,21 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-  margin-top: 2px;
-  font-size: 1rem;
+  margin-top: 20px;
+  font-size: 1.5rem;
 }
 .currency{
   padding: 0.8rem;
-  width: 100%;
-  font-size: 0.8rem;
-  border-radius: 15px;
+  width: 96.5%;
+  font-size: 1rem;
 }
-
 .container {
-  background: rgb(255, 255, 255);
-  width: 400px ;
+  background: #fff;
+  width: 50% ;
   margin: 50px auto;
   padding: 20px;
   border: 1px solid black;
-  box-shadow: 0 0 15px ;
+  box-shadow: 0 0 15px black ;
   border-radius: 10px;
 }
 
@@ -811,7 +838,6 @@ input, button {
 }
 input{
   width: 93.5%;
-  border-radius: 15px;
 }
 
 button {
@@ -826,7 +852,6 @@ button {
   padding: 1.3rem;
   width: 100%;
   font-size: 1rem;
-  border-radius: 15px;
 }
 .result {
   margin-top: 15px;
