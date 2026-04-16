@@ -54,13 +54,13 @@ def vat_calculator(request):
             session_key=session_key,
             calc_type='VAT',
             input_data={
-                "amount": amount,
-                "vat": vat,
+                "amount": float(amount),
+                "vat": float (vat),
                 "currency": currency
             },
             result_data={
-                "vat_amount": vat_amount,
-                "total": total,
+                "vat_amount":float (vat_amount),
+                "total": float (total),
                 "currency": currency
             }
         )
@@ -182,10 +182,10 @@ def fba_calculator(request):
             calc_type='FBA',
             input_data=data,
             result_data={
-                "amazon_fee_amount": round(amazon_fee_amount, 2),
-                "total_cost": round(total_cost, 2),
-                "profit": round(profit, 2),
-                "roi": round(roi, 2),
+                "amazon_fee_amount":float (round(amazon_fee_amount, 2)),
+                "total_cost":float (round(total_cost, 2)),
+                "profit":float (round(profit, 2)),
+                "roi":float (round(roi, 2)),
                 "currency": currency
                 
             }
@@ -193,10 +193,10 @@ def fba_calculator(request):
 
         return Response({
             # "success": True,
-            "amazon_fee_amount": round(amazon_fee_amount, 2),
-            "total_cost": round(total_cost, 2),
-            "profit": round(profit, 2),
-            "roi": round(roi, 2),
+            "amazon_fee_amount":float (round(amazon_fee_amount, 2)),
+            "total_cost":float (round(total_cost, 2)),
+            "profit":float (round(profit, 2)),
+            "roi":float (round(roi, 2)),
             "currency": currency
             
         })

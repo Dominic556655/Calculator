@@ -8,5 +8,5 @@ urlpatterns = [
     # path('history/', views.calculation_history, name='calculation-history'),
     # path('history/clear/', views.clear_history, name='clear-history'),
     path("", views.currency_converter, name="currency_converter"),
-    path("api/convert/", views.get_conversion_rate, name="get_conversion_rate"),
+    path("convert/", views.get_conversion_rate, name="get_conversion_rate"),
 ]
