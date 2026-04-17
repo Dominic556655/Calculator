@@ -515,19 +515,66 @@ ul a {
 input{
   width: 95.5%;
   border: 1px solid gray;
-  font-size: 1.3rem;
+  font-size: 2rem;
   border-radius: 15px;
+  margin-bottom: 15px;
+}
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 2rem;
+}
+.currency{
+  padding: 1rem;
+  width: 100%;
+  border: 1px solid gray;
+  margin-top: 20px;
+  font-size: 1.5rem;
+}
+
+.calculator-keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-top: 15px;
+  
+}
+.calculator-keys button {
+  padding: 15px;
+  font-size: 2rem;
+  border: none;
+  border-radius: 8px;
+  background: #1a96dd;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.calculator-keys button:hover {
+  background: #ddd;
+}
+
+.calculator-keys button:active {
+  transform: scale(0.95);
+}
+.result {
+  margin-top: 15px;
+  font-weight: bold; 
+  white-space: pre-line;
+  font-size: 2rem;
 }
 
 .page{
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 p{
   text-align: center;
-  font-size: 20px;
+  font-size: 30px;
 }
 h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
+  white-space: wrap;
 }
 
 .hero-img{
@@ -540,14 +587,15 @@ h1 {
   display:flex;
   float: left;
   gap: 2px;
-  margin-left: 0.4rem;
+  margin-left: -20rem;
+  margin-top: 5rem;
   text-decoration: none;
-  font-size: 1.6rem;
+  font-size: 2rem;
   white-space: nowrap;
 }
 .container {
   background: #fff;
-  width: 60%;
+  width: 70%;
   margin: 50px auto;
   padding: 20px;
   border: 1px solid black;
