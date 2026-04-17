@@ -22,6 +22,7 @@ function calculateVAT() {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
     },
     body: JSON.stringify({
       amount: amount,

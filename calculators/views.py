@@ -67,32 +67,12 @@ def vat_calculator(request):
 
         return Response({
             # "success": True,
-            "vat_amount": vat_amount,
-            "total": total,
+            "vat_amount":float (vat_amount),
+            "total":float (total),
             "currency": currency
         })
 
     return Response({"success": False, "error": serializer.errors}, status=400)
-# @api_view(['POST'])
-# @permission_classes([AllowAny])
-# def vat_calculator(request):
-#     serializer = VATSerializer(data=request.data)
-#     if serializer.is_valid():
-#         amount = serializer.validated_data['amount']
-#         vat = serializer.validated_data['vat']
-#         vat_amount = (amount * vat) / 100
-#         total = amount + vat_amount
-#         print("SAVING VAT NOW...")
-        
-#         user = request.user if request.user.is_authenticated else None
-#         Calculation.objects.create(
-#     user=user,
-#     calc_type='VAT',
-#     input_data={"amount": amount, "vat": vat},
-#     result_data={"vat_amount": vat_amount, "total": total}
-# )
-#         return Response({"success": True, "vat_amount": vat_amount, "total": total})
-#     return Response({"success": False, "error": serializer.errors}, status=400)
         
         # ===================
         # MORTGAGE CALCULATOR VIEW
@@ -180,7 +160,12 @@ def fba_calculator(request):
             user=None,
             session_key=session_key,
             calc_type='FBA',
-            input_data=data,
+            input_data={
+                "product_cost": float(product_cost),
+                "selling_price": float(selling_price),
+                "amazon_fee": float(amazon_fee),
+                "shipping_cost": float(shipping_cost),
+                "currency": currency},
             result_data={
                 "amazon_fee_amount":float (round(amazon_fee_amount, 2)),
                 "total_cost":float (round(total_cost, 2)),
