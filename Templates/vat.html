@@ -173,7 +173,7 @@
 
       <h1>Net Price and Gross Price Explained Clearly</h1>
       <p class="indent page hidden">
-        Before using a VAT calculator, it helps to understand t2o key terms;
+        Before using a VAT calculator, it helps to understand (2) key terms;
       </p>
       <ul class="page indent">
         <li>
@@ -389,14 +389,21 @@
             window.appendNumber = function (num) {
               if (!activeInput) return;
 
-              // Remove commas
               let rawValue = activeInput.value.replace(/,/g, "");
 
-              // Add new digit
+              // prevent multiple decimals
+              if (num === "." && rawValue.includes(".")) return;
+
               rawValue += num;
 
-              // Format with commas
-              activeInput.value = Number(rawValue).toLocaleString("en-US");
+              // split integer and decimal parts
+              let parts = rawValue.split(".");
+
+              // format integer part only
+              parts[0] = Number(parts[0] || 0).toLocaleString("en-US");
+
+              // join back
+              activeInput.value = parts.join(".");
             };
 
             window.clearInput = function () {

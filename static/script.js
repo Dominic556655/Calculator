@@ -47,6 +47,10 @@ calculatorInputs.forEach((input) => {
       } else {
         input.value = Number(raw).toLocaleString("en-US");
       }
+       window.clearInput = function () {
+    if (!activeInput) return;
+    activeInput.value = "";
+  };
     });
   }
 });
@@ -311,14 +315,6 @@ function setActive(field) {
 }
 
 
-// Select2
-// $(document).ready(function () {
-//   $('#currency').select2({
-//     placeholder: "Search currency...",
-//     // dropdownParent: $('.container'),
-  
-//   });
-// });
 
 
 // Footer year
