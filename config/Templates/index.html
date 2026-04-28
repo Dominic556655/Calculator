@@ -1,0 +1,303 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <title>Currency Calculator</title>
+    <link
+      rel="shortcut icon"
+      href="{% static 'img/All-in-one VAT, mortgage, FBA calculator logo.png' %}"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="{% static 'script.js' %}" defer></script>
+  </head>
+  <body>
+    <div class="container1">
+      <h1>Calculator App</h1>
+      <br />
+      <ul class="index-ul">
+        <a href="{% url 'vat-page' %}">VAT Calculator</a
+        ><br />
+        <!-- <a href="{% url 'mortgage-page' %}">Mortgage Calculator</a
+        ><br /> -->
+        <a href="{% url 'fba-page' %}">FBA Calculator</a
+        ><br />
+        <a href="{% url 'history-page' %}">View History</a>
+      </ul>
+    </div>
+
+    <div class="General-container hidden">
+      <h5 class="free-page">‼️Free Online Calculators</h5>
+      <h1 class="h1 title">
+        All-in-One Smart Calculator Platform. <br />
+        TAX, Mortgage, Amazon FBA
+      </h1>
+      <p>Perform financial, investment, and daily calculations instantly.</p>
+      <div class="container hidden">
+        <h1>Live Currency Converter</h1>
+
+        <input type="number" id="amount" placeholder="Enter amount" />
+        <br /><br />
+        <strong>From</strong>
+
+        <select class="currency" id="base">
+          <!-- Major Global -->
+          <option value="USD">USD - US Dollar ($)</option>
+          <option value="EUR">EUR - Euro (€)</option>
+          <option value="GBP">GBP - British Pound (£)</option>
+          <option value="JPY">JPY - Japanese Yen (¥)</option>
+          <option value="CNY">CNY - Chinese Yuan (¥)</option>
+          <!-- Africa -->
+          <option value="NGN">NGN - Nigerian Naira (₦)</option>
+          <option value="ZAR">ZAR - South African Rand (R)</option>
+          <option value="KES">KES - Kenyan Shilling (KSh)</option>
+          <option value="GHS">GHS - Ghana Cedi (GH₵)</option>
+          <option value="EGP">EGP - Egyptian Pound (E£)</option>
+
+          <!-- Middle East -->
+          <option value="SAR">SAR - Saudi Riyal (﷼)</option>
+          <option value="AED">AED - UAE Dirham (AED)</option>
+          <option value="TRY">TRY - Turkish Lira (₺)</option>
+
+          <!-- Asia -->
+          <option value="INR">INR - Indian Rupee (₹)</option>
+          <option value="KRW">KRW - South Korean Won (₩)</option>
+          <option value="PHP">PHP - Philippine Peso (₱)</option>
+          <option value="THB">THB - Thai Baht (฿)</option>
+
+          <!-- Americas -->
+          <option value="CAD">CAD - Canadian Dollar (C$)</option>
+          <option value="AUD">AUD - Australian Dollar (A$)</option>
+          <option value="NZD">NZD - New Zealand Dollar (NZ$)</option>
+          <option value="BRL">BRL - Brazilian Real (R$)</option>
+          <option value="MXN">MXN - Mexican Peso ($)</option>
+
+          <!-- Europe (extra) -->
+          <option value="CHF">CHF - Swiss Franc (CHF)</option>
+          <option value="SEK">SEK - Swedish Krona (kr)</option>
+          <option value="NOK">NOK - Norwegian Krone (kr)</option>
+          <option value="DKK">DKK - Danish Krone (kr)</option>
+          <option value="PLN">PLN - Polish Zloty (zł)</option>
+        </select>
+        <br />
+        <br />
+        <strong>To</strong>
+        <!-- //TARGET -->
+        <select class="currency" id="target">
+          <!-- Major Global -->
+          <option value="GBP">GBP - British Pound (£)</option>
+          <option value="EUR">EUR - Euro (€)</option>
+          <option value="USD">USD - US Dollar ($)</option>
+          <option value="JPY">JPY - Japanese Yen (¥)</option>
+          <option value="CNY">CNY - Chinese Yuan (¥)</option>
+          <!-- Africa -->
+          <option value="NGN">NGN - Nigerian Naira (₦)</option>
+          <option value="ZAR">ZAR - South African Rand (R)</option>
+          <option value="KES">KES - Kenyan Shilling (KSh)</option>
+          <option value="GHS">GHS - Ghana Cedi (GH₵)</option>
+          <option value="EGP">EGP - Egyptian Pound (E£)</option>
+
+          <!-- Middle East -->
+          <option value="SAR">SAR - Saudi Riyal (﷼)</option>
+          <option value="AED">AED - UAE Dirham (AED)</option>
+          <option value="TRY">TRY - Turkish Lira (₺)</option>
+
+          <!-- Asia -->
+          <option value="INR">INR - Indian Rupee (₹)</option>
+          <option value="KRW">KRW - South Korean Won (₩)</option>
+          <option value="PHP">PHP - Philippine Peso (₱)</option>
+          <option value="THB">THB - Thai Baht (฿)</option>
+
+          <!-- Americas -->
+          <option value="CAD">CAD - Canadian Dollar (C$)</option>
+          <option value="AUD">AUD - Australian Dollar (A$)</option>
+          <option value="NZD">NZD - New Zealand Dollar (NZ$)</option>
+          <option value="BRL">BRL - Brazilian Real (R$)</option>
+          <option value="MXN">MXN - Mexican Peso ($)</option>
+
+          <!-- Europe (extra) -->
+          <option value="CHF">CHF - Swiss Franc (CHF)</option>
+          <option value="SEK">SEK - Swedish Krona (kr)</option>
+          <option value="NOK">NOK - Norwegian Krone (kr)</option>
+          <option value="DKK">DKK - Danish Krone (kr)</option>
+          <option value="PLN">PLN - Polish Zloty (zł)</option>
+        </select>
+        <button id="convert-btn">Convert</button>
+
+        <h2 id="result"></h2>
+        <p id="rate-info"></p>
+      </div>
+
+      <!--       
+      /* // CURRENCY CoNVERTER */ -->
+      <script>
+        const convertUrl = "{% url 'get_conversion_rate' %}";
+
+        $(document).ready(function () {
+          $("#convert-btn").click(function () {
+            const amount = $("#amount").val();
+            const base = $("#base").val();
+            const target = $("#target").val();
+
+            if (!amount || !base || !target) {
+              alert("Please fill all fields");
+              return;
+            }
+
+            $.ajax({
+              url: convertUrl,
+              data: { amount, base, target },
+              dataType: "json",
+              success: function (data) {
+                if (data.converted) {
+                  $("#result").text(
+                    `${amount} ${base} = ${data.converted} ${target}`,
+                  );
+                  $("#rate-info").text(
+                    `Rate: 1 ${base} = ${data.rate} ${target}`,
+                  );
+                } else if (data.error) {
+                  $("#result").text(data.error);
+                  $("#rate-info").text("");
+                }
+              },
+              error: function () {
+                $("#result").text("Failed to fetch conversion. Try again.");
+                $("#rate-info").text("");
+              },
+            });
+          });
+        });
+      </script>
+
+      <img
+        src="/static/img/illustration-2.svg"
+        alt="finance calculator"
+        class="hero-img hidden"
+      />
+
+      <p class="page hidden">
+        A currency converter is a tool that allows you to exchange the value of
+        one currency into another based on current exchange rates. It provides
+        real-time information about how much a unit of one currency is worth in
+        terms of another, helping individuals and businesses make informed
+        financial decisions.
+      </p>
+      <p class="page hidden">
+        Using a currency converter is simple: you select the source currency,
+        the target currency, and enter the amount. The tool then instantly shows
+        the equivalent value based on the most recent exchange rate, making
+        cross-currency calculations fast, accurate, and convenient.
+      </p>
+
+      <img
+        src="/static/img/finance calculator.svg"
+        alt=""
+        class="hero-img hidden"
+      />
+
+      <div class="division1 hidden">
+        <div class="division hidden">
+          <h1 class="h1">How It Works</h1>
+
+          <p class="page hidden">
+            Our calculator platform is designed to make complex calculations
+            simple and fast. Instead of struggling with formulas or manual
+            calculations, you can get accurate results instantly by using our
+            tools.
+          </p>
+
+          <strong>
+            <ol class="page hidden">
+              <li>Choose a calculator</li>
+              <br />
+
+              <li>Enter your values</li>
+              <br />
+
+              <li>Get instant results</li>
+            </ol>
+          </strong>
+        </div>
+        <div class="division hidden">
+          <h1 class="h1 hidden">Why Use This Platform</h1>
+          <strong>
+            <ol class="page hidden">
+              <li>Fast and accurate results</li>
+              <br />
+              <li>No signup required</li>
+              <br />
+              <li>Multiple calculators in one place</li>
+              <br />
+              <li>Mobile-friendly</li>
+            </ol>
+          </strong>
+        </div>
+      </div>
+      <br />
+      <h1>FAQs</h1>
+      <hr />
+      <br />
+      <details class="details">
+        <p>
+          <summary>
+            <strong>What is this website about?</strong>
+          </summary>
+          This platform provides easy-to-use financial calculators like VAT,
+          mortgage, and more.
+        </p>
+      </details>
+      <hr />
+      <br />
+      <details class="details">
+        <p>
+          <summary><strong>Are the calculations accurate?</strong></summary>
+          Yes, they are based on standard formulas, but should be used as a
+          guide only.
+        </p>
+      </details>
+      <hr />
+      <br />
+      <details class="details">
+        <p>
+          <summary><strong>Do I need an account?</strong></summary>
+          No, all calculators are free and can be used without signing up.
+        </p>
+      </details>
+      <hr />
+      <br />
+      <details class="details">
+        <p>
+          <summary><strong>Can I use this on my phone?</strong></summary>
+          Yes, the website is fully responsive on mobile, tablet, and desktop.
+        </p>
+      </details>
+      <hr />
+      <br />
+      <br />
+      <br />
+    </div>
+
+    <!-- this helps to show once a user scrolls -->
+    <script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          }
+        });
+      });
+
+      document.querySelectorAll(".hidden").forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+    <!-- FOOTER -->
+    <footer>
+      <p class="kick">
+        &copy; <time id="year"></time> Currency-calculator. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>
