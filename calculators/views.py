@@ -63,23 +63,23 @@ def vat_calculator(request):
         vat_amount = (amount * vat) / 100
         total = amount + vat_amount
 
-    Calculation.objects.create(
-        user=None,
-        session_key=session_key,
-        calc_type='VAT',
-        input_data={
-            "amount": float(amount),
-            "vat_rate": float(vat),
-            "currency": currency,
-            "mode": mode
-        },
-        result_data={
-            "net_amount": float(net_amount),
-            "vat_amount": float(vat_amount),
-            "total": float(total),
-            "currency": currency
-        }
-    )
+    # Calculation.objects.create(
+    #     user=None,
+    #     session_key=session_key,
+    #     calc_type='VAT',
+    #     input_data={
+    #         "amount": float(amount),
+    #         "vat_rate": float(vat),
+    #         "currency": currency,
+    #         "mode": mode
+    #     },
+    #     result_data={
+    #         "net_amount": float(net_amount),
+    #         "vat_amount": float(vat_amount),
+    #         "total": float(total),
+    #         "currency": currency
+    #     }
+    # )
 
     return Response({
         "net_amount": float(net_amount),
@@ -88,94 +88,7 @@ def vat_calculator(request):
         "currency": currency,
         "mode": mode
     })
-# @api_view(['POST'])
-# @permission_classes([AllowAny])
-# def vat_calculator(request):
 
-#     serializer = VATSerializer(data=request.data)
-
-#     if not request.session.session_key:
-#         request.session.create()
-
-#     session_key = request.session.session_key
-
-#     if serializer.is_valid():
-#         amount = serializer.validated_data['amount']
-#         vat = serializer.validated_data['vat_rate']  # 🔥 MUST MATCH FRONTEND
-#         currency = request.data.get('currency', 'USD')
-
-#         vat_amount = (amount * vat) / 100
-#         total = amount + vat_amount
-
-#         Calculation.objects.create(
-#             user=None,
-#             session_key=session_key,
-#             calc_type='VAT',
-#             input_data={
-#                 "amount": float(amount),
-#                 "vat_rate": float(vat),
-#                 "currency": currency
-#             },
-#             result_data={
-#                 "vat_amount": float(vat_amount),
-#                 "total": float(total),
-#                 "currency": currency
-#             }
-#         )
-
-#         return Response({
-#             "vat_amount": float(vat_amount),
-#             "total": float(total),
-#             "currency": currency
-#         })
-
-#     return Response(
-#         {"error": serializer.errors},
-#         status=400
-#     )
-# @api_view(['POST'])
-# @permission_classes([AllowAny])
-# def vat_calculator(request):
-#     serializer = VATSerializer(data=request.data)
-#     if not request.session.session_key:
-#         request.session.create()
-#     session_key = request.session.session_key
-    
-#     if serializer.is_valid():
-#         amount = serializer.validated_data['amount']
-#         vat = serializer.validated_data['vat']
-#         currency = request.data.get('currency', 'USD')  # default
-
-#         vat_amount = (amount * vat) / 100
-#         total = amount + vat_amount
-
-#         user = request.user if request.user.is_authenticated else None
-
-#         Calculation.objects.create(
-#             user=None,
-#             session_key=session_key,
-#             calc_type='VAT',
-#             input_data={
-#                 "amount": float(amount),
-#                 "vat": float (vat),
-#                 "currency": currency
-#             },
-#             result_data={
-#                 "vat_amount":float (vat_amount),
-#                 "total": float (total),
-#                 "currency": currency
-#             }
-#         )
-
-#         return Response({
-#             # "success": True,
-#             "vat_amount":float (vat_amount),
-#             "total":float (total),
-#             "currency": currency
-#         })
-
-#     return Response({"success": False, "error": serializer.errors}, status=400)
-        
         # ===================
         # MORTGAGE CALCULATOR VIEW
         # ======================
@@ -208,18 +121,18 @@ def mortgage_calculator(request):
         total_interest = total_payment - principal
 
         user = request.user if request.user.is_authenticated else None
-        Calculation.objects.create(
-            user=None,
-            session_key=session_key,
-            calc_type='MORTGAGE',
-            input_data=data,
-            result_data={
-                "monthly_payment": round(monthly_payment, 2),
-                "total_payment": round(total_payment, 2),
-                "total_interest": round(total_interest, 2),
-                "currency": currency
-            }
-        )
+        # Calculation.objects.create(
+        #     user=None,
+        #     session_key=session_key,
+        #     calc_type='MORTGAGE',
+        #     input_data=data,
+        #     result_data={
+        #         "monthly_payment": round(monthly_payment, 2),
+        #         "total_payment": round(total_payment, 2),
+        #         "total_interest": round(total_interest, 2),
+        #         "currency": currency
+        #     }
+        # )
 
         return Response({
             # "success": True,
@@ -289,19 +202,19 @@ def fba_calculator(request):
         # =========================
         # SAVE
         # =========================
-        Calculation.objects.create(
-            user=request.user if request.user.is_authenticated else None,
-            session_key=session_key,
-            calc_type='FBA',
-            input_data=data,
-            result_data={
-                "amazon_fee_total": round(amazon_fee_used, 2),
-                "total_cost": round(total_cost, 2),
-                "profit": round(profit, 2),
-                "roi": round(roi, 2),
-                "currency": currency
-            }
-        )
+        # Calculation.objects.create(
+        #     user=request.user if request.user.is_authenticated else None,
+        #     session_key=session_key,
+        #     calc_type='FBA',
+        #     input_data=data,
+        #     result_data={
+        #         "amazon_fee_total": round(amazon_fee_used, 2),
+        #         "total_cost": round(total_cost, 2),
+        #         "profit": round(profit, 2),
+        #         "roi": round(roi, 2),
+        #         "currency": currency
+        #     }
+        # )
 
         return Response({
             "amazon_fee_total": round(amazon_fee_used, 2),
@@ -312,60 +225,6 @@ def fba_calculator(request):
         })
 
     return Response({"success": False, "error": serializer.errors}, status=400)
-# @api_view(['POST'])
-# @permission_classes([AllowAny])
-# def fba_calculator(request):
-#     serializer = FBASerializer(data=request.data)
-#     if not request.session.session_key:
-#         request.session.create()
-#     session_key = request.session.session_key
-    
-#     if serializer.is_valid():
-#         data = serializer.validated_data
-
-#         product_cost = data['product_cost']
-#         selling_price = data['selling_price']
-#         amazon_fee = data['amazon_fee']
-#         shipping_cost = data.get('shipping_cost', 0)
-#         currency = request.data.get('currency', '₦')
-
-#         amazon_fee_amount = selling_price * (amazon_fee / 100)
-#         total_cost = product_cost + shipping_cost + amazon_fee_amount
-#         profit = selling_price - total_cost
-#         roi = (profit / total_cost * 100) if total_cost != 0 else 0
-
-#         user = request.user if request.user.is_authenticated else None
-#         Calculation.objects.create(
-#             user=None,
-#             session_key=session_key,
-#             calc_type='FBA',
-#             input_data={
-#                 "product_cost": float(product_cost),
-#                 "selling_price": float(selling_price),
-#                 "amazon_fee": float(amazon_fee),
-#                 "shipping_cost": float(shipping_cost),
-#                 "currency": currency},
-#             result_data={
-#                 "amazon_fee_amount":float (round(amazon_fee_amount, 2)),
-#                 "total_cost":float (round(total_cost, 2)),
-#                 "profit":float (round(profit, 2)),
-#                 "roi":float (round(roi, 2)),
-#                 "currency": currency
-                
-#             }
-#         )
-
-#         return Response({
-#             # "success": True,
-#             "amazon_fee_amount":float (round(amazon_fee_amount, 2)),
-#             "total_cost":float (round(total_cost, 2)),
-#             "profit":float (round(profit, 2)),
-#             "roi":float (round(roi, 2)),
-#             "currency": currency
-            
-#         })
-#     return Response({"success": False, "error": serializer.errors}, status=400)
-    
 
 # ===============
 # Currency converter
